@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Thank You</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="thankyou" id="thankYouBox">
+    <h2>🎉 Thank You!</h2>
+    <p>Your details have been saved successfully.</p>
+  </div>
+
+  <h2>Buyers List</h2>
+  <table id="buyersTable">
+    <thead>
+      <tr>
+        <th>Name</th><th>Phone</th><th>City</th><th>Type</th><th>Budget</th><th>Timeline</th><th>Status</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem("buyerData"));
+    if (data) {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${data.fullName}</td>
+        <td>${data.phone}</td>
+        <td>${data.city}</td>
+        <td>${data.propertyType}${data.bhk ? " (" + data.bhk + " BHK)" : ""}</td>
+        <td>${data.budgetMin || ''} – ${data.budgetMax || ''}</td>
+        <td>${data.timeline}</td>
+        <td>New</td>
+      `;
+      document.querySelector("#buyersTable tbody").appendChild(row);
+    }
+  </script>
+</body>
+</html>

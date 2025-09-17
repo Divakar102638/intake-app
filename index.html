@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mini Buyer Lead App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>MINI BUYER LEAD INTAKE</h1>
+
+  <!-- Lead Form -->
+  <form id="buyerForm">
+    <label>Full Name
+      <input type="text" name="fullName" required minlength="2" maxlength="80">
+    </label><br><br>
+    <label>Email
+      <input type="email" name="email">
+    </label><br><br>
+    <label>Phone
+      <input type="tel" name="phone" required pattern="\d{10,15}">
+    </label><br><br>
+    <label>City
+      <select name="city" required>
+        <option></option>
+        <option>VIJAYAWADA</option>
+        <option>CHENNAI</option>
+        <option>HYDERABAD</option>
+        <option>BANGALORE</option>
+      </select>
+    </label><br><br>
+    <label>Property Type
+      <select id="propertyType" name="propertyType" required>
+        <option></option>
+        <option>Apartment</option>
+        <option>Villa</option>
+        <option>Plot</option>
+        <option>Office</option>
+        <option>Retail</option>
+      </select>
+    </label><br><br>
+    <label id="bhkLabel" style="display:none;">BHK
+      <select name="bhk">
+        <option>1</option><option>2</option><option>3</option><option>4</option><option>Studio</option>
+      </select>
+    </label><br><br>
+    <label>Purpose
+      <select name="purpose" required>
+        <option>Buy</option><option>Rent</option>
+      </select>
+    </label><br><br>
+    <label>Budget Min
+      <input type="number" name="budgetMin" min="0">
+    </label><br><br>
+    <label>Budget Max
+      <input type="number" name="budgetMax" min="0">
+    </label><br><br>
+    <label>Timeline
+      <select name="timeline">
+        <option> </option>
+        <option>0-3m</option>
+        <option>3-6m</option>
+        <option>>6m</option><option>Exploring</option>
+      </select>
+    </label><br><br>
+    <label>Source
+      <select name="source">
+        <option> </option>
+        <option>Website</option><option>Referral</option>
+        <option>Walk-in</option><option>Call</option><option>Other</option>
+      </select>
+    </label><br><br>
+    <label>Notes
+      <textarea name="notes" maxlength="1000"></textarea>
+    </label><br><br>
+    <label>Tags (comma separated)
+      <input type="text" name="tags">
+    </label><br><br>
+
+    <button type="submit">Add Buyer</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('buyerForm');
+    const propertyType = document.getElementById('propertyType');
+    const bhkLabel = document.getElementById('bhkLabel');
+
+    // Show/hide BHK
+    propertyType.addEventListener('change', () => {
+      bhkLabel.style.display = ['Apartment', 'Villa'].includes(propertyType.value) ? 'block' : 'none';
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      // Validate budget
+      if (data.budgetMin && data.budgetMax && Number(data.budgetMax) < Number(data.budgetMin)) {
+        alert("Budget Max must be ≥ Budget Min");
+        return;
+      }
+
+      // Save to localStorage
+      localStorage.setItem("buyerData", JSON.stringify(data));
+
+      // Redirect to thank you page
+      window.location.href = "thankyou.html";
+    });
+  </script>
+</body>
+</html>
